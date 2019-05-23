@@ -4,7 +4,7 @@ from torch import nn, einsum
 from random import randint
 from torch.nn import functional as f
 
-from Memory import Memory
+from .Memory import Memory
 
 class MemoryNN(nn.Module):
     def __init__(self, hidden_size, memory_banks, memory_dim):

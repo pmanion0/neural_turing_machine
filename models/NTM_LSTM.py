@@ -4,7 +4,7 @@ from torch import nn, einsum
 from random import randint
 from torch.nn import functional as f
 
-from MemoryNN import MemoryNN
+from .MemoryNN import MemoryNN
 
 class NTM_LSTM(nn.Module):
     ''' Implementation of a Neural Turing Machine from the Graves et al paper (2014) 
