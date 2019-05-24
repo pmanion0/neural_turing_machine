@@ -21,10 +21,14 @@ class BasicRNN(nn.Module):
         self.softmax = nn.LogSoftmax(dim=2)
         
     def forward(self, input, hidden):
-        ''' Run a forward path for a single number of sequence of numbers
+        ''' Run a forward pass for a single input or sequence of inputs
+        
+        Args:
+            input: single input or full sequence (size: seq_len, 1, input_size)
+            hidden: simple hidden layer (size: 1, 1, hidden_size)
         
         Returns:
-            output and hidden layer after last sequence input
+            full output sequence and very last hidden layer
         '''
         output = []
         
