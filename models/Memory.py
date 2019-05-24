@@ -15,7 +15,7 @@ class Memory(nn.Module):
             dim: dimension of each memory bank
         '''
         super(Memory, self).__init__()
-        self.memory = torch.zeros(banks, dim)
+        self.register_buffer('memory', torch.zeros(banks, dim))
         
         
     def read(self, weights):

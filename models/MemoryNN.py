@@ -108,8 +108,11 @@ class MemoryNN(nn.Module):
             pair of (initial_memory, initial_weights)
         '''
         self.add_module('memory', Memory(self.banks, self.dim))
-        memory_read = torch.zeros(self.dim)
-        weight = torch.zeros(self.banks)
+        
+        model_device = next(self.parameters()).device
+        
+        memory_read = torch.zeros(self.dim).to(model_device)
+        weight = torch.zeros(self.banks).to(model_device)
         
         return (memory_read, weight)
     
