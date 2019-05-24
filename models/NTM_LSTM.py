@@ -12,12 +12,14 @@ class NTM_LSTM(nn.Module):
     https://arxiv.org/pdf/1410.5401.pdf
     '''
     
-    def __init__(self, input_size, hidden_size, output_size, memory_banks, memory_dim):
+    def __init__(self, input_size, hidden_size, output_size,
+                 memory_banks, memory_dim, output_length = 1):
         ''' Init the NTM-LSTM '''
         super(NTM_LSTM, self).__init__()
         self.hidden_size = hidden_size
         self.memory_banks = memory_banks
         self.memory_dim = memory_dim
+        self.output_length = output_length
         
         # Core LSTM and Memory
         self.lstm = nn.LSTM(input_size + memory_dim, hidden_size)
@@ -37,7 +39,7 @@ class NTM_LSTM(nn.Module):
         Returns:
             output and hidden layer after last sequence input
         '''
-        
+        output = []
         hidden, cell, memory, weight = state
         
         for i in range(input.shape[0]):
@@ -46,9 +48,16 @@ class NTM_LSTM(nn.Module):
             _, (hidden, cell) = self.lstm.forward(ntm_input, (hidden, cell))
             memory, weight = self.mem_nn.forward(hidden, weight)
         
-        output = self.hidden_to_output(hidden)
-        output = self.softmax(output)
+        output.append(self.softmax(self.hidden_to_output(hidden)))
         
+        for j in range(1, self.output_length):
+            ntm_input = torch.cat((output[-1], memory.view(1,1,-1)), dim=2)
+        
+            _, (hidden, cell) = self.lstm.forward(ntm_input, (hidden, cell))
+            memory, weight = self.mem_nn.forward(hidden, weight)
+            output.append(self.softmax(self.hidden_to_output(hidden)))
+            
+        output = torch.cat(output, dim=0)
         return output, (hidden, cell, memory, weight)
     
     
