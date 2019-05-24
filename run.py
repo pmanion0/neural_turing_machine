@@ -108,11 +108,12 @@ elif model == 'NTM_LSTM':
     memory_banks = 10
     memory_dim = 20
 	
-    ntm = NTM_LSTM(input_dim, 5, goal_dim, memory_banks, memory_dim)
+    ntm = NTM_LSTM(input_dim, 5, goal_dim, memory_banks, memory_dim, output_length = goal_length)
     ntm_optim = torch.optim.SGD(ntm.parameters(), lr = 0.001)
 	
     setup_kwargs['model'] = ntm
     setup_kwargs['optim'] = ntm_optim
+    setup_kwargs['print_interval'] = 1e2
 
 else:
     print("MODEL IS NOT RECOGNIZED! ERROR!")
