@@ -1,6 +1,6 @@
 import torch
 
-class SingleNumbers:
+class Numbers:
     ''' This is a toy task that asks for a single number return
     
     '''

@@ -7,7 +7,7 @@ from random import randint
 from models.BasicRNN import BasicRNN
 from models.BasicLSTM import BasicLSTM
 from models.NTM_LSTM import NTM_LSTM
-from tasks.SingleNumbers import SingleNumbers
+from tasks.Numbers import Numbers
 
 def train_model(model, number_tool, criterion, optim, train_size = 100e3, stream_size = 200, print_interval = 1e3):
     ''' Runs a full training pass for a given model '''
@@ -48,7 +48,7 @@ max_number = 9
 goal_func = lambda stream: stream[0]
 goal_dim = max_number+2
 
-number_tool = SingleNumbers(
+number_tool = Numbers(
     max_number,
     reset_value_func = lambda x: randint(0,max_number),
     goal_func = goal_func
