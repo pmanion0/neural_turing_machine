@@ -34,8 +34,8 @@ class BasicRNN(nn.Module):
             
         output.append(self.softmax(self.input_to_output(combined_input)))
         
-        for j in range(1,self.output_length):
-            combined_input = torch.cat((output[-1].unsqueeze(0), hidden), dim=2)
+        for j in range(1, self.output_length):
+            combined_input = torch.cat((output[-1], hidden), dim=2)
             hidden = self.input_to_hidden(combined_input)
             output.append(self.softmax(self.input_to_output(combined_input)))
         
