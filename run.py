@@ -25,11 +25,12 @@ import sys
 from torch import nn
 from random import randint
 
-from models.BasicRNN import BasicRNN
-from models.BasicLSTM import BasicLSTM
-from models.NTM_LSTM import NTM_LSTM
-from tasks.Numbers import Numbers
+from models import BasicRNN
+from models import BasicLSTM
+from models import NTM_LSTM
+from tasks import Numbers
 from training import train_model
+
 
 # Read Command Line Arguments: 
 model = sys.argv[1]
