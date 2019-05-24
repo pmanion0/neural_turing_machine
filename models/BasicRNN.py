@@ -26,19 +26,20 @@ class BasicRNN(nn.Module):
         Returns:
             output and hidden layer after last sequence input
         '''
-        output = torch.zeros(self.output_length, 1, self.output_size)
+        output = []
         
         for i in range(input.shape[0]):
             combined_input = torch.cat((input[i].unsqueeze(0), hidden), dim=2)
             hidden = self.input_to_hidden(combined_input)
             
-        output[0:1] = self.softmax(self.input_to_output(combined_input))
+        output.append(self.softmax(self.input_to_output(combined_input)))
         
         for j in range(1,self.output_length):
-            combined_input = torch.cat((output[j].unsqueeze(0), hidden), dim=2)
+            combined_input = torch.cat((output[-1].unsqueeze(0), hidden), dim=2)
             hidden = self.input_to_hidden(combined_input)
-            output[j:j+1] = self.softmax(self.input_to_output(combined_input))
+            output.append(self.softmax(self.input_to_output(combined_input)))
         
+        output = torch.cat(output, dim=0)
         return output, hidden
     
     def init_hidden(self):
