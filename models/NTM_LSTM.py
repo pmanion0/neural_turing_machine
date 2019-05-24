@@ -23,7 +23,7 @@ class NTM_LSTM(nn.Module):
         
         # Core LSTM and Memory
         self.lstm = nn.LSTM(input_size + memory_dim, hidden_size)
-        self.mem_nn = MemoryNN(hidden_size, memory_banks, memory_dim)
+        self.add_module('mem_nn', MemoryNN(hidden_size, memory_banks, memory_dim))
         
         # Output Layer
         self.hidden_to_output = nn.Linear(hidden_size, output_size)

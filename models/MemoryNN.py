@@ -20,7 +20,7 @@ class MemoryNN(nn.Module):
         self.banks = memory_banks
         self.dim = memory_dim
         
-        self.memory = Memory(memory_banks, memory_dim)
+        self.add_module('memory', Memory(memory_banks, memory_dim))
         self.sigmoid = nn.Sigmoid()
         self.softmax = nn.Softmax(dim=0)
         
@@ -107,7 +107,7 @@ class MemoryNN(nn.Module):
         Returns:
             pair of (initial_memory, initial_weights)
         '''
-        self.memory = Memory(self.banks, self.dim)
+        self.add_module('memory', Memory(self.banks, self.dim))
         memory_read = torch.zeros(self.dim)
         weight = torch.zeros(self.banks)
         

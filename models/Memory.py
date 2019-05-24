@@ -3,7 +3,7 @@ import torch
 from torch import nn, einsum
 from torch.nn import functional as f
 
-class Memory:
+class Memory(nn.Module):
     ''' Implements an attention-based memory system as outlined in
         the Neural Turing Machine paper '''
     
@@ -14,6 +14,7 @@ class Memory:
             banks: number of memory banks
             dim: dimension of each memory bank
         '''
+        super(Memory, self).__init__()
         self.memory = torch.zeros(banks, dim)
         
         
