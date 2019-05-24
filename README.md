@@ -9,11 +9,11 @@ Example:
     $ python3 run.py <model_type> <task_type> > test_out.txt
 
 Args:
-    model_type: string indicating the RNN model to use, options:
-        BasicRNN, BasicLSTM, and NTM_LSTM
+  -  **model_type** string indicating the RNN model to use, options:
+       - BasicRNN, BasicLSTM, and NTM_LSTM
     
-    task_type: string indicating the toy task to use, options:
-        Single, StartSequence3, StartSequence20
+  -  **task_type** string indicating the toy task to use, options:
+       - Single, StartSequence3, StartSequence20
         
 Returns:
     prints periodic outputs of the average loss rate over the
