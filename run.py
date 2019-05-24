@@ -9,6 +9,9 @@ from models.BasicLSTM import BasicLSTM
 from models.NTM_LSTM import NTM_LSTM
 from tasks.Numbers import Numbers
 
+model = sys.argv[1]
+task = sys.argv[2]
+
 def train_model(model, number_tool, criterion, optim, train_size = 100e3, stream_size = 200, print_interval = 1e3):
     ''' Runs a full training pass for a given model '''
     
@@ -48,12 +51,27 @@ max_number = 9
 goal_func = lambda stream: stream[0]
 goal_dim = max_number+2
 
-number_tool = Numbers(
-    max_number,
-    reset_value_func = lambda x: randint(0,max_number),
-    goal_func = goal_func
-)
+if task == 'Single':
+    number_tool = Numbers(
+        max_number,
+        reset_value_func = lambda x: randint(0,max_number),
+        goal_func = goal_func
+    )
 
+elif task == 'StartSequence3':
+    number_tool = Numbers(
+        max_number,
+        increment_func = lambda incr: randint(0,9),
+        goal_func = lambda stream: stream[0:3]
+    )
+elif task == 'StartSequence20':
+    number_tool = Numbers(
+        max_number,
+        increment_func = lambda incr: randint(0,9),
+        goal_func = lambda stream: stream[0:20]
+    )
+
+    
 # Training Size
 train_size = 100e3
 criterion = nn.NLLLoss()
@@ -68,9 +86,6 @@ setup_kwargs = {
 }
 
 device = torch.device('cuda') if torch.cuda.is_available else torch.device('cpu')
-
-
-model = sys.argv[1]
 
 if model == 'BasicRNN':
     rnn = BasicRNN(number_tool.get_dim(), 5, goal_dim)
