@@ -1,7 +1,7 @@
 import torch
 
 def train_model(model, number_tool, criterion, optim, train_size = 100e3, stream_size = 200, print_interval = 1e3):
-    ''' Runs a full training pass for a given model '''
+    ''' Runs a full training routine for a given model '''
     
     train_size = int(train_size)
     print_interval = int(print_interval)
@@ -31,6 +31,5 @@ def train_model(model, number_tool, criterion, optim, train_size = 100e3, stream
         error_sum += loss
 
         if i % print_interval == 0:
-            #print(f'[{i}] Error: {error_sum / print_interval}')
             print('[' + str(i) + '] Error: ' + str(error_sum / print_interval))
             error_sum = 0
