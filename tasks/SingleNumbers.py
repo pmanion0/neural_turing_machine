@@ -21,8 +21,10 @@ class SingleNumbers:
                 for the stream (i.e. the goal output)
         '''
         self.max_number = max_number
+        self.invalid_token = 'INVALID'
+        self.end_token = 'END'
         self.all_numbers = list(range(max_number+1))
-        self.all_classes = self.all_numbers + [-1]
+        self.all_classes = self.all_numbers + [self.invalid_token, self.end_token]
         
         self.increment_func = increment_func
         self.reset_func = reset_func
@@ -53,6 +55,8 @@ class SingleNumbers:
                 new_num = self.increment_func(stream)
             stream.append(new_num)
             
+        stream.append(self.end_token)
+            
         return stream
     
     
@@ -68,10 +72,10 @@ class SingleNumbers:
             Encoded tensor of shape (number_index, _, one_hot_encoded_number)
         '''
         num_stream = num_stream if type(num_stream) is list else [num_stream]
-        output = torch.zeros(len(num_stream), 1, len(self.all_numbers)+1)
+        output = torch.zeros(len(num_stream), 1, len(self.all_classes))
         
         for i, num in enumerate(num_stream):
-            value = num if num in self.all_numbers else -1
+            value = num if num in self.all_numbers else self.invalid_token
             ind = self.all_classes.index(value)
             output[i,0,ind] = 1
             
@@ -86,7 +90,8 @@ class SingleNumbers:
             Simple evaluation of the goal function (type depends
             on the goal function provided)
         '''
-        return self.goal_func(stream)
+        goal = self.goal_func(stream)
+        return goal if type(goal) is list else [goal]
     
     
     def decode_row(self, encoded_number):
